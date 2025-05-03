@@ -7,17 +7,36 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+    @State
+    private var reminders = Reminder.samples
+    
+    @State
+    private var isAddRemindereDialogPresented = false
+    
+    private func presentAddReminderView() {
+        isAddReminderDialogPresented.toggle()
     }
-}
+    
+    var body: some View {
+        List($reminders) { $reminder in
+            HStack {
+                Image(systemName: reminder.isCompleted
+                   ? "largecircle.fill.circle"
+                      : "circle")
+                .imageScale(.large)
+                .foregroundColor(.accentColor)
+                .onTapGesture {
+                    reminder.isCompleted.toggle()
+                }
+                Text(reminder.title)
+            }
+            }
+        }
+        //.padding()
+    }
+
 
 #Preview {
     ContentView()
